@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Sans+Myanmar:wght@300;400;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink:      #1a1a2e;
+      --ink2:     #4a4a6a;
+      --ink3:     #8888aa;
+      --gold:     #c9a84c;
+      --gold2:    #e8c97a;
+      --cream:    #faf8f3;
+      --white:    #ffffff;
+      --line:     rgba(0,0,0,0.08);
+      --r:        14px;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      font-family: 'Noto Sans JP', 'Noto Sans Myanmar', serif;
+      background: var(--cream);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    /* ── LANG BAR ── */
+    .lang-bar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      display: flex;
+      justify-content: flex-end;
+      gap: 4px;
+      padding: 12px 24px;
+      background: rgba(250,248,243,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+    }
+    .lb {
+      padding: 4px 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(0,0,0,0.15);
+      background: transparent;
+      color: var(--ink2);
+      font-size: 0.78rem;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.18s;
+      letter-spacing: 0.03em;
+    }
+    .lb:hover { border-color: var(--gold); color: var(--gold); }
+    .lb.on {
+      background: var(--ink);
+      color: var(--cream);
+      border-color: var(--ink);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 100px 24px 60px;
+      max-width: 720px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 20px;
+    }
+
+    .avatar-wrap {
+      position: relative;
+      width: 120px; height: 120px;
+    }
+    .avatar-ring {
+      position: absolute; inset: -4px;
+      border-radius: 50%;
+      background: conic-gradient(var(--gold), var(--gold2), var(--gold));
+      opacity: 0.6;
+    }
+    .avatar {
+      position: relative;
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--cream);
+      background: linear-gradient(135deg, #e8e0d0 0%, #d4c9b0 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.8rem;
+      overflow: hidden;
+    }
+    .avatar img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+    .avatar-emoji {
+      font-size: 2.8rem;
+      line-height: 1;
+    }
+
+    .hero-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 5vw, 2.8rem);
+      color: var(--ink);
+      line-height: 1.2;
+    }
+    .hero-title {
+      font-size: 0.9rem;
+      color: var(--gold);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+    .hero-location {
+      font-size: 0.85rem;
+      color: var(--ink3);
+    }
+    .hero-bio {
+      font-size: 0.95rem;
+      color: var(--ink2);
+      line-height: 1.9;
+      max-width: 520px;
+    }
+
+    /* ── DIVIDER ── */
+    .ornament {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 40px auto;
+      max-width: 720px;
+      padding: 0 24px;
+    }
+    .ornament-line { flex:1; height: 1px; background: var(--line); }
+    .ornament-dot  { width:6px; height:6px; border-radius:50%; background: var(--gold); opacity:0.6; }
+
+    /* ── SECTION ── */
+    .section {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px 56px;
+    }
+    .sec-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+
+    /* ── EXPERIENCE ── */
+    .exp-list { display: flex; flex-direction: column; gap: 0; }
+    .exp-item {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 0 20px;
+      position: relative;
+    }
+    .exp-item:not(:last-child)::after {
+      content:'';
+      position: absolute;
+      left: 80px;
+      top: 28px; bottom: -1px;
+      width: 1px;
+      background: var(--line);
+      margin-left: -10px;
+    }
+    .exp-year {
+      font-size: 0.78rem;
+      color: var(--ink3);
+      padding-top: 3px;
+      text-align: right;
+      white-space: nowrap;
+    }
+    .exp-body {
+      padding-bottom: 32px;
+      padding-left: 20px;
+      border-left: none;
+      position: relative;
+    }
+    .exp-body::before {
+      content:'';
+      position: absolute;
+      left: -1px; top: 8px;
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--gold);
+      transform: translateX(-50%);
+      border: 2px solid var(--cream);
+      outline: 1px solid var(--gold);
+    }
+    .exp-company {
+      font-size: 0.8rem;
+      color: var(--gold);
+      font-weight: 500;
+      margin-bottom: 2px;
+      letter-spacing: 0.04em;
+    }
+    .exp-role {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+    .exp-desc {
+      font-size: 0.85rem;
+      color: var(--ink2);
+      line-height: 1.8;
+    }
+
+    /* ── CERTS ── */
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 14px;
+    }
+    .cert-card {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      padding: 18px 16px;
+      transition: transform 0.18s, box-shadow 0.18s;
+      position: relative;
+      overflow: hidden;
+    }
+    .cert-card::before {
+      content:'';
+      position: absolute;
+      top:0; left:0; right:0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--gold2));
+    }
+    .cert-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.07);
+    }
+    .cert-icon { font-size: 1.6rem; margin-bottom: 10px; }
+    .cert-name {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 4px;
+      line-height: 1.4;
+    }
+    .cert-issuer {
+      font-size: 0.76rem;
+      color: var(--ink3);
+    }
+    .cert-year {
+      font-size: 0.72rem;
+      color: var(--gold);
+      font-weight: 600;
+      margin-top: 8px;
+    }
+
+    /* ── FOOTER CONTACT ── */
+    .footer {
+      background: var(--ink);
+      color: rgba(255,255,255,0.6);
+      padding: 40px 24px;
+      text-align: center;
+    }
+    .footer-name {
+      font-family: 'DM Serif Display', serif;
+      color: var(--gold2);
+      font-size: 1.2rem;
+      margin-bottom: 12px;
+    }
+    .footer-links {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      font-size: 0.83rem;
+      transition: color 0.18s;
+    }
+    .footer-links a:hover { color: var(--gold2); }
+    .footer-copy { font-size: 0.75rem; }
+
+    @media (max-width: 500px) {
+      .exp-item { grid-template-columns: 60px 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LANG BAR -->
+  <nav class="lang-bar">
+    <button class="lb on"  onclick="setLang('en',this)">EN</button>
+    <button class="lb"     onclick="setLang('ja',this)">日本語</button>
+    <button class="lb"     onclick="setLang('my',this)">မြန်မာ</button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="avatar-wrap">
+      <div class="avatar-ring"></div>
+      <div class="avatar">
+        <!--
+          ══════════════════════════════════════════
+          ✏️  ဓာတ်ပုံ ထည့်နည်း (၂ နည်း)
+
+          နည်း ၁ — File ကိုတောင်ဘက် same folder ထဲထည့်
+          <img src="photo.jpg" alt="Your Name" />
+
+          နည်း ၂ — URL ဖြင့်
+          <img src="https://..." alt="Your Name" />
+
+          ✏️  ဓာတ်ပုံ မရှိသေးလျှင် emoji ထားပါ
+          ══════════════════════════════════════════
+        -->
+        <span class="avatar-emoji">👤</span>
+      </div>
+    </div>
+
+    <!-- ✏️ နာမည် ပြင်ပါ -->
+    <h1 class="hero-name">Your Name</h1>
+    <p class="hero-title" data-i18n="title"></p>
+    <p class="hero-location">📍 <span data-i18n="location"></span></p>
+    <p class="hero-bio" data-i18n="bio"></p>
+  </section>
+
+  <div class="ornament">
+    <div class="ornament-line"></div>
+    <div class="ornament-dot"></div>
+    <div class="ornament-line"></div>
+  </div>
+
+  <!-- WORK EXPERIENCE -->
+  <section class="section">
+    <p class="sec-label" data-i18n="exp_label"></p>
+    <div class="exp-list" id="exp-list"></div>
+  </section>
+
+  <div class="ornament">
+    <div class="ornament-line"></div>
+    <div class="ornament-dot"></div>
+    <div class="ornament-line"></div>
+  </div>
+
+  <!-- CERTIFICATES -->
+  <section class="section">
+    <p class="sec-label" data-i18n="cert_label"></p>
+    <div class="cert-grid" id="cert-grid"></div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p class="footer-name">Your Name</p>
+    <div class="footer-links">
+      <!-- ✏️ ဆက်သွယ်ရန် Link များ ထည့်ပါ -->
+      <a href="mailto:your@email.com">your@email.com</a>
+      <a href="https://linkedin.com/in/yourprofile" target="_blank">LinkedIn</a>
+      <a href="https://github.com/yourusername" target="_blank">GitHub</a>
+    </div>
+    <p class="footer-copy" data-i18n="footer_copy"></p>
+  </footer>
+
+
+  <script>
+  /* ═══════════════════════════════════════════════════
+     ✏️  ဒေတာ ပြင်ဆင်ရမည့် နေရာ
+     ═══════════════════════════════════════════════════ */
+
+  const data = {
+
+    /* ── Static text ── */
+    text: {
+      en: {
+        title:       "Full Stack Developer",
+        location:    "Tokyo, Japan",
+        bio:         "Passionate developer with experience in web and mobile development. Dedicated to crafting clean, efficient solutions and continuously growing my skills.",
+        exp_label:   "Work Experience",
+        cert_label:  "Certificates & Qualifications",
+        footer_copy: "© 2025 Your Name · All rights reserved"
+      },
+      ja: {
+        title:       "フルスタックデベロッパー",
+        location:    "東京都",
+        bio:         "Webおよびモバイルアプリケーションのフルスタックエンジニアです。クリーンで効率的なコードを書くことを心がけ、常に成長を続けています。",
+        exp_label:   "職務経歴",
+        cert_label:  "資格・認定",
+        footer_copy: "© 2025 Your Name · 無断転載禁止"
+      },
+      my: {
+        title:       "Full Stack Developer",
+        location:    "တိုကျို၊ ဂျပန်",
+        bio:         "Web နှင့် Mobile Development တွင် အတွေ့အကြုံရှိသော Developer တစ်ဦးဖြစ်ပါသည်။ ကောင်းမွန်သော code ရေးသားခြင်းနှင့် နည်းပညာ တိုးတက်မှုအတွက် အမြဲကြိုးစားနေပါသည်။",
+        exp_label:   "အလုပ်အကိုင် သမိုင်းကြောင်း",
+        cert_label:  "လက်မှတ်များ",
+        footer_copy: "© 2025 သင်၏နာမည် · မူပိုင်ခွင့် ရှိသည်"
+      }
+    },
+
+    /* ── Work Experience ── */
+    /* ✏️ company / role / desc — ၃ ဘာသာ ထည့်ပါ */
+    experience: [
+      {
+        year: "2022 –",
+        en: { company: "Company Name",  role: "Full Stack Developer",    desc: "Built and maintained web applications using React and PHP. Led a team of 3 developers." },
+        ja: { company: "会社名",         role: "フルスタックエンジニア",   desc: "ReactとPHPを用いたWebアプリ開発・保守。3名のチームをリード。" },
+        my: { company: "ကုမ္ပဏီနာမည်",  role: "Full Stack Developer",    desc: "React နှင့် PHP ဖြင့် Web Application တည်ဆောက်ပြီး Developer ၃ ဦးပါ team ကို ဦးဆောင်ခဲ့သည်။" }
+      },
+      {
+        year: "2020 – 2022",
+        en: { company: "Previous Company", role: "Frontend Developer",     desc: "Developed responsive UI components and improved page load speed by 40%." },
+        ja: { company: "前職会社名",        role: "フロントエンドエンジニア", desc: "レスポンシブUIの開発。ページ速度を40%改善。" },
+        my: { company: "ယခင်ကုမ္ပဏီ",     role: "Frontend Developer",     desc: "Responsive UI Component များ ဖန်တီးပြီး page load speed 40% တိုးတက်စေခဲ့သည်။" }
+      },
+      {
+        year: "2018 – 2020",
+        en: { company: "First Company",  role: "Junior Developer",        desc: "Collaborated on back-end API development using Node.js and MySQL." },
+        ja: { company: "最初の会社",      role: "ジュニアデベロッパー",     desc: "Node.jsとMySQLを用いたバックエンドAPI開発に携わる。" },
+        my: { company: "ပထမကုမ္ပဏီ",    role: "Junior Developer",        desc: "Node.js နှင့် MySQL ဖြင့် Back-end API တည်ဆောက်မှုတွင် ပူးပေါင်းဆောင်ရွက်ခဲ့သည်။" }
+      }
+    ],
+
+    /* ── Certificates ── */
+    /* ✏️ icon / name / issuer / year ပြင်ပါ */
+    certificates: [
+      {
+        icon: "🏆",
+        en: { name: "AWS Certified Developer",          issuer: "Amazon Web Services" },
+        ja: { name: "AWS 認定デベロッパー",               issuer: "Amazon Web Services" },
+        my: { name: "AWS Certified Developer",          issuer: "Amazon Web Services" },
+        year: "2023"
+      },
+      {
+        icon: "📜",
+        en: { name: "JLPT N2",                          issuer: "Japan Foundation" },
+        ja: { name: "日本語能力試験 N2",                  issuer: "国際交流基金" },
+        my: { name: "JLPT N2 ဂျပန်ဘာသာ",              issuer: "Japan Foundation" },
+        year: "2022"
+      },
+      {
+        icon: "🎓",
+        en: { name: "B.Sc. Computer Science",           issuer: "University of Yangon" },
+        ja: { name: "コンピュータサイエンス学士",           issuer: "ヤンゴン大学" },
+        my: { name: "B.Sc. Computer Science ဘွဲ့",     issuer: "ရန်ကုန်တက္ကသိုလ်" },
+        year: "2018"
+      },
+      {
+        icon: "🛡️",
+        en: { name: "Google UX Design Certificate",     issuer: "Google / Coursera" },
+        ja: { name: "Google UXデザイン認定",              issuer: "Google / Coursera" },
+        my: { name: "Google UX Design Certificate",     issuer: "Google / Coursera" },
+        year: "2021"
+      }
+    ]
+
+  } /* ← end of data */
+
+
+  /* ═══════════════════════════════════════════════════
+     ⚙️  Logic — ပြင်ဆင်မည် မဟုတ်ပါ
+     ═══════════════════════════════════════════════════ */
+
+  let currentLang = 'en'
+
+  function setLang(lang, btn) {
+    currentLang = lang
+    document.querySelectorAll('.lb').forEach(b => b.classList.remove('on'))
+    if (btn) btn.classList.add('on')
+    renderText()
+    renderExp()
+    renderCerts()
+  }
+
+  function renderText() {
+    const t = data.text[currentLang]
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n')
+      if (t[key]) el.textContent = t[key]
+    })
+    document.documentElement.lang = currentLang
+  }
+
+  function renderExp() {
+    const list = document.getElementById('exp-list')
+    list.innerHTML = data.experience.map(e => `
+      <div class="exp-item">
+        <div class="exp-year">${e.year}</div>
+        <div class="exp-body">
+          <div class="exp-company">${e[currentLang].company}</div>
+          <div class="exp-role">${e[currentLang].role}</div>
+          <div class="exp-desc">${e[currentLang].desc}</div>
+        </div>
+      </div>
+    `).join('')
+  }
+
+  function renderCerts() {
+    const grid = document.getElementById('cert-grid')
+    grid.innerHTML = data.certificates.map(c => `
+      <div class="cert-card">
+        <div class="cert-icon">${c.icon}</div>
+        <div class="cert-name">${c[currentLang].name}</div>
+        <div class="cert-issuer">${c[currentLang].issuer}</div>
+        <div class="cert-year">${c.year}</div>
+      </div>
+    `).join('')
+  }
+
+  setLang('en', document.querySelector('.lb.on'))
+  </script>
+</body>
+</html>
